@@ -76,6 +76,27 @@ button.secondary {
   background: #78909c;
 }
 
+button.nav {
+  background: #eceff1;
+  color: #37474f;
+  border: 1px solid #cfd8dc;
+}
+
+button.nav.active {
+  background: #1565c0;
+  color: #fff;
+  border-color: #1565c0;
+}
+
+tr.merged-row {
+  background: #f3f7ff;
+}
+
+.tag.merge {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;

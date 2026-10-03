@@ -22,6 +22,16 @@ CREATE TABLE IF NOT EXISTS strain_readings (
     processed_at timestamptz
 );
 CREATE INDEX IF NOT EXISTS idx_strain_readings_status ON strain_readings (status, id);
+
+CREATE TABLE IF NOT EXISTS strain_merges (
+    id serial PRIMARY KEY,
+    source_ids integer[] NOT NULL,
+    span_code text NOT NULL,
+    mean_microstrain double precision NOT NULL,
+    new_reading_id integer REFERENCES strain_readings (id),
+    created_by text NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now()
+);
 """
 
 
@@ -52,6 +62,7 @@ async def seed_if_empty(pool: AsyncConnectionPool) -> None:
                 return
             samples = [
                 ("跨中S1", 150.0),
+                ("跨中S1", 170.0),
                 ("支座S2", 40.0),
             ]
             for span_code, microstrain in samples:
@@ -83,6 +94,7 @@ def seed_if_empty_sync(conn) -> None:
         return
     samples = [
         ("跨中S1", 150.0),
+        ("跨中S1", 170.0),
         ("支座S2", 40.0),
     ]
     for span_code, microstrain in samples:
