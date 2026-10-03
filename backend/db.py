@@ -22,6 +22,19 @@ CREATE TABLE IF NOT EXISTS strain_readings (
     processed_at timestamptz
 );
 CREATE INDEX IF NOT EXISTS idx_strain_readings_status ON strain_readings (status, id);
+
+CREATE TABLE IF NOT EXISTS strain_compositions (
+    id serial PRIMARY KEY,
+    new_reading_id integer NOT NULL
+        REFERENCES strain_readings (id) ON DELETE RESTRICT,
+    span_code text NOT NULL,
+    mean_microstrain double precision NOT NULL,
+    source_ids integer[] NOT NULL,
+    created_by text NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_strain_compositions_new_reading
+    ON strain_compositions (new_reading_id);
 """
 
 
